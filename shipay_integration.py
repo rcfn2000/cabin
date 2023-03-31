@@ -13,7 +13,7 @@ auth_data = {
 }
 
 
-def create_order():
+def create_order(valor):
     # Autentica na API da Shipay
     auth_response = requests.post("https://api.shipay.com.br/pdvauth", json=auth_data)
     if auth_response.status_code == 200:
@@ -22,23 +22,15 @@ def create_order():
 
         # Cria um pedido na API da Shipay
         order_data = {
-            "buyer": {
-                "cpf_cnpj": "04497425398",
-                "email": "rob.dias@gmail.com",
-                "name": "Roberto Dias",
-                "phone": "(11) 99999-9999",
-            },
             "items": [
                 {
-                    "ean": "0123456789012",
-                    "item_title": "batata doce",
+                    "item_title": "cabine",
                     "quantity": 1,
-                    "sku": "MTC-6110",
-                    "unit_price": 10,
+                    "unit_price": valor,
                 }
             ],
             "order_ref": "pedido-qualquer-123",
-            "total": 10,
+            "total": valor,
             "wallet": "pix",
         }
         order_response = requests.post(
@@ -57,8 +49,8 @@ def create_order():
         return None, None
 
 
-def generate_qr_code():
-    order_id, qr_code_base64 = create_order()
+def generate_qr_code(valor):
+    order_id, qr_code_base64 = create_order(valor)
 
     if qr_code_base64 is None:
         print("Error: QR code data not found")

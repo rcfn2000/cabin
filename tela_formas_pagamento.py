@@ -58,7 +58,7 @@ class TelaFormasPagamento:
 
     def pagar_com_pix(self):
         # Gera o QR Code usando a função generate_qr_code()
-        qr_img = generate_qr_code()
+        qr_img = generate_qr_code(self.valor)
 
         if qr_img:
             # Converte a imagem do QR Code em PhotoImage para exibir no tkinter
